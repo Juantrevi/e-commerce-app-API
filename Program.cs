@@ -36,4 +36,22 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+//This method is used to create a scope for the application
+//This scope is used to create a new instance of the database
+//This instance is used to create the database if it doesn't exist
+//This instance is used to migrate the database if there are any pending migrations
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var context = services.GetRequiredService<StoreContext>();
+var logger = services.GetRequiredService<ILogger<Program>>();
+
+try
+{
+    await context.Database.MigrateAsync();
+}
+catch (Exception e)
+{
+    logger.LogError(e, "An error occurred during migration");
+}
+
 app.Run();
