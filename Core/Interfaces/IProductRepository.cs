@@ -13,4 +13,7 @@ public interface IProductRepository
     //it is read only (More specific than IEnumerable)
     Task<IReadOnlyList<Product>> GetProductsAsync();
     
+    Task<IReadOnlyList<ProductBrand>> GetProductBrandsAsync();
+    
+    Task<IReadOnlyList<ProductType>> GetProductTypesAsync();
 }

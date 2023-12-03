@@ -47,7 +47,10 @@ var logger = services.GetRequiredService<ILogger<Program>>();
 
 try
 {
+    //Migrate changes to the database
     await context.Database.MigrateAsync();
+    //Seed the database with data
+    await StoreContextSeed.SeedAsync(context);
 }
 catch (Exception e)
 {

@@ -23,6 +23,7 @@ public class ProductsController : ControllerBase
         //     return Ok(products);
         // }
         
+        
     [HttpGet]   
     //Returns a list of products as JSON Asynchronous code
         //Better for performance and scalability
@@ -38,11 +39,30 @@ public class ProductsController : ControllerBase
         return Ok(products);
     }
     
+    
     [HttpGet("{id}")]
     public async Task<ActionResult<Product>> GetProduct(int id)
     {
         var product = await _repo.GetProductByIdAsync(id);
         
         return product;
+    }
+    
+    
+    [HttpGet("brands")]
+    public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
+    {
+        var productBrands = await _repo.GetProductBrandsAsync();
+        
+        return Ok(productBrands);
+    }
+    
+    
+    [HttpGet("types")]
+    public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
+    {
+        var productTypes = await _repo.GetProductTypesAsync();
+        
+        return Ok(productTypes);
     }
 }
