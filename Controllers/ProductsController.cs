@@ -8,10 +8,17 @@ namespace e_commerce_app.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-    private readonly IProductRepository _repo;
-    public ProductsController(IProductRepository repo)
+    private readonly IGenericRepository<Product> _productsRepo;
+    private readonly IGenericRepository<ProductBrand> _productBrandsRepo;
+    private readonly IGenericRepository<ProductType> _productTypesRepo;
+    
+    public ProductsController(IGenericRepository<Product> productsRepo, 
+        IGenericRepository<ProductBrand> productBrandsRepo, 
+        IGenericRepository<ProductType> productTypesRepo)
     {
-        _repo = repo;
+        _productsRepo = productsRepo;
+        _productBrandsRepo = productBrandsRepo;
+        _productTypesRepo = productTypesRepo;
     }
     
     //Returns a list of products as JSON Synchronous code
@@ -34,7 +41,7 @@ public class ProductsController : ControllerBase
         //Task goes away and deals with that, in the meantime, that thread can go and handle other requests
     public async Task<ActionResult<List<Product>>> GetProducts()
     { 
-        var products = await _repo.GetProductsAsync();
+        var products = await _productsRepo.ListAllAsync();
         
         return Ok(products);
     }
@@ -43,7 +50,7 @@ public class ProductsController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<Product>> GetProduct(int id)
     {
-        var product = await _repo.GetProductByIdAsync(id);
+        var product = await _productsRepo.GetByIdAsync(id);
         
         return product;
     }
@@ -52,7 +59,7 @@ public class ProductsController : ControllerBase
     [HttpGet("brands")]
     public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
     {
-        var productBrands = await _repo.GetProductBrandsAsync();
+        var productBrands = await _productBrandsRepo.ListAllAsync();
         
         return Ok(productBrands);
     }
@@ -61,7 +68,7 @@ public class ProductsController : ControllerBase
     [HttpGet("types")]
     public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
     {
-        var productTypes = await _repo.GetProductTypesAsync();
+        var productTypes = await _productTypesRepo.ListAllAsync();
         
         return Ok(productTypes);
     }

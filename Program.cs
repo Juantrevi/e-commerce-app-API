@@ -17,6 +17,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//This is how we add a generic repository to the container
+builder.Services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+
 //AddScoped:
 //A new instance is created for each request, only for the duration of that request
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
