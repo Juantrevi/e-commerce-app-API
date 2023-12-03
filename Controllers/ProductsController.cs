@@ -27,6 +27,7 @@ public class ProductsController : ControllerBase
         //     return Ok(products);
         // }
         
+        
     [HttpGet]   
     //Returns a list of products as JSON Asynchronous code
         //Better for performance and scalability
