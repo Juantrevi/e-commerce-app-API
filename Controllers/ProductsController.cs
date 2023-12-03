@@ -1,7 +1,6 @@
 ﻿using Core.Entities;
-using Infrastructure.Data;
+using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace e_commerce_app.Controllers;
 
@@ -9,11 +8,10 @@ namespace e_commerce_app.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-    private readonly StoreContext _context;
-
-    public ProductsController(StoreContext context)
+    private readonly IProductRepository _repo;
+    public ProductsController(IProductRepository repo)
     {
-        _context = context;
+        _repo = repo;
     }
     
     //Returns a list of products as JSON Synchronous code
@@ -25,7 +23,6 @@ public class ProductsController : ControllerBase
         //     return Ok(products);
         // }
         
-        
     [HttpGet]   
     //Returns a list of products as JSON Asynchronous code
         //Better for performance and scalability
@@ -36,15 +33,15 @@ public class ProductsController : ControllerBase
         //Task goes away and deals with that, in the meantime, that thread can go and handle other requests
     public async Task<ActionResult<List<Product>>> GetProducts()
     { 
-        var products = await _context.Products.ToListAsync();
+        var products = await _repo.GetProductsAsync();
         
-        return products;
+        return Ok(products);
     }
     
     [HttpGet("{id}")]
     public async Task<ActionResult<Product>> GetProduct(int id)
     {
-        var product = await _context.Products.FindAsync(id);
+        var product = await _repo.GetProductByIdAsync(id);
         
         return product;
     }

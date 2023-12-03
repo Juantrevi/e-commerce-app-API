@@ -1,19 +1,25 @@
 //Creates an instance of the web application using the default settings and runs it.
 
+using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container. Add any additional services to the container here like the following:
+//Adding a connection string to the database (SQLite)
+builder.Services.AddDbContext<StoreContext>(opt 
+    => opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Add services to the container
+// Add any additional services to the container here like the following:
 // builder.Services.AddSingleton<IExampleService, ExampleService>();
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
- builder.Services.AddDbContext<StoreContext>(opt 
-     => opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+//AddScoped:
+//A new instance is created for each request, only for the duration of that request
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 
