@@ -1,6 +1,6 @@
 //Creates an instance of the web application using the default settings and runs it.
 
-using e_commerce_app.Data;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,4 +1,4 @@
-﻿namespace e_commerce_app.Entities;
+﻿namespace Core.Entities;
 
 public class Product
 {
@@ -6,5 +6,6 @@ public class Product
     public int Id { get; set; }
     
     public string Name { get; set; }
+    
     
 }

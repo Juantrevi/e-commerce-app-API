@@ -1,15 +1,14 @@
-﻿using e_commerce_app.Entities;
+﻿using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace e_commerce_app.Data;
+namespace Infrastructure.Data;
 
 public class StoreContext : DbContext
 {
     public StoreContext(DbContextOptions options) : base(options)
     {
-        
-        
     }
     
     public DbSet<Product> Products { get; set; }
+    
 }

@@ -1,5 +1,5 @@
-﻿using e_commerce_app.Data;
-using e_commerce_app.Entities;
+﻿using Core.Entities;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
