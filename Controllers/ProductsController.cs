@@ -14,9 +14,7 @@ public class ProductsController : ControllerBase
     public ProductsController(StoreContext context)
     {
         _context = context;
-        
     }
-    
     
     //Returns a list of products as JSON Synchronous code
         // [HttpGet]
