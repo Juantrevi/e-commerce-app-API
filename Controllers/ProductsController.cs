@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
+using Core.Specifications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace e_commerce_app.Controllers;
@@ -41,7 +42,10 @@ public class ProductsController : ControllerBase
         //Task goes away and deals with that, in the meantime, that thread can go and handle other requests
     public async Task<ActionResult<List<Product>>> GetProducts()
     { 
-        var products = await _productsRepo.ListAllAsync();
+        var spec = new ProductsWithTypesAndBrandsSpecification();
+        
+        //This method is from our GenericRepository, and takes a specification
+        var products = await _productsRepo.ListAsync(spec);
         
         return Ok(products);
     }

@@ -4,6 +4,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data;
 
+//------------------------NOT IN USE------------------------//
+//------------------------NOT IN USE------------------------//
+//------------------------NOT IN USE------------------------//
+//------------------------NOT IN USE------------------------//
+//------------------------NOT IN USE------------------------//
+//------------------------NOT IN USE------------------------//
+//------------------------NOT IN USE------------------------//
+//------------------------NOT IN USE------------------------//
+//------------------------NOT IN USE------------------------//
+// As we are using the GenericRepository.
+
+
+
 //Remember to add it as a service
 //This repository is responsible for getting data from the database, 
 //and it will be used by the ProductController.

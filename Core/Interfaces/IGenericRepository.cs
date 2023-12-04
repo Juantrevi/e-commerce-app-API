@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Specifications;
 
 namespace Core.Interfaces;
 //Generic repository
@@ -14,4 +15,11 @@ public interface IGenericRepository<T> where T : BaseEntity
     //IReadOnlyList is a list that cannot be modified,
     Task<IReadOnlyList<T>> ListAllAsync();
     
+    
+    //Additional 2 methods
+    //To add specification as a parameter
+    
+    Task<T> GetEntityWithSpec(ISpecification<T> spec);
+    
+    Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec);
 }
