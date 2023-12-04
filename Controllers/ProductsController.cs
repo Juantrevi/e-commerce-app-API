@@ -1,6 +1,8 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
+using e_commerce_app.Dtos;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace e_commerce_app.Controllers;
@@ -40,26 +42,45 @@ public class ProductsController : ControllerBase
         // and this will consume a lot of memory, so we need to use async code to handle this.
         //Aso creating the Task, what we are saying is "Go get me some data" and when you are done
         //Task goes away and deals with that, in the meantime, that thread can go and handle other requests
-    public async Task<ActionResult<List<Product>>> GetProducts()
+    public async Task<ActionResult<List<ProductToReturnDto>>> GetProducts()
     { 
         var spec = new ProductsWithTypesAndBrandsSpecification();
         
         //This method is from our GenericRepository, and takes a specification
         var products = await _productsRepo.ListAsync(spec);
         
-        return Ok(products);
+        return products.Select(product => new ProductToReturnDto
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Description = product.Description,
+            Price = product.Price,
+            PictureUrl = product.PictureUrl,
+            ProductBrand = product.ProductBrand.Name,
+            ProductType = product.ProductType.Name
+        }).ToList();
     }
     
     
     [HttpGet("{id}")]
-    public async Task<ActionResult<Product>> GetProduct(int id)
+    public async Task<ProductToReturnDto> GetProduct(int id)
     {
         //We call the constructor with params, and create a new instance
         var spec = new ProductsWithTypesAndBrandsSpecification(id);
         
         var product = await _productsRepo.GetEntityWithSpec(spec);
         
-        return product;
+        return new ProductToReturnDto
+        {
+            Id = product.Id,
+            Name = product.Name,
+            Description = product.Description,
+            Price = product.Price,
+            PictureUrl = product.PictureUrl,
+            ProductBrand = product.ProductBrand.Name,
+            ProductType = product.ProductType.Name
+        };
+        
     }
     
     
