@@ -19,6 +19,7 @@ builder.Services.AddSwaggerGen();
 
 //This is how we add a generic repository to the container
 builder.Services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 //AddScoped:
 //A new instance is created for each request, only for the duration of that request

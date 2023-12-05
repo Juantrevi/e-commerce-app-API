@@ -1,4 +1,5 @@
-﻿using Core.Entities;
+﻿using AutoMapper;
+using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
 using e_commerce_app.Dtos;
@@ -14,14 +15,18 @@ public class ProductsController : ControllerBase
     private readonly IGenericRepository<Product> _productsRepo;
     private readonly IGenericRepository<ProductBrand> _productBrandsRepo;
     private readonly IGenericRepository<ProductType> _productTypesRepo;
-    
+    private readonly IMapper _mapper;
+
     public ProductsController(IGenericRepository<Product> productsRepo, 
         IGenericRepository<ProductBrand> productBrandsRepo, 
-        IGenericRepository<ProductType> productTypesRepo)
+        IGenericRepository<ProductType> productTypesRepo,
+        IMapper mapper)
+        
     {
         _productsRepo = productsRepo;
         _productBrandsRepo = productBrandsRepo;
         _productTypesRepo = productTypesRepo;
+        _mapper = mapper;
     }
     
     //Returns a list of products as JSON Synchronous code
@@ -70,16 +75,7 @@ public class ProductsController : ControllerBase
         
         var product = await _productsRepo.GetEntityWithSpec(spec);
         
-        return new ProductToReturnDto
-        {
-            Id = product.Id,
-            Name = product.Name,
-            Description = product.Description,
-            Price = product.Price,
-            PictureUrl = product.PictureUrl,
-            ProductBrand = product.ProductBrand.Name,
-            ProductType = product.ProductType.Name
-        };
+        return _mapper.Map<Product, ProductToReturnDto>(product);
         
     }
     
