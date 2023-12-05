@@ -54,16 +54,7 @@ public class ProductsController : ControllerBase
         //This method is from our GenericRepository, and takes a specification
         var products = await _productsRepo.ListAsync(spec);
         
-        return products.Select(product => new ProductToReturnDto
-        {
-            Id = product.Id,
-            Name = product.Name,
-            Description = product.Description,
-            Price = product.Price,
-            PictureUrl = product.PictureUrl,
-            ProductBrand = product.ProductBrand.Name,
-            ProductType = product.ProductType.Name
-        }).ToList();
+        return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products));
     }
     
     
