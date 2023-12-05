@@ -23,4 +23,5 @@ public class BaseSpecification<T> : ISpecification<T>
     {
         Includes.Add(includeExpression);
     }
+    
 }

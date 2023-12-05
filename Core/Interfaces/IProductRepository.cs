@@ -6,7 +6,6 @@ namespace Core.Interfaces;
 //and will be injected in Controllers/ProductsController.cs
 public interface IProductRepository
 {
-    
     Task<Product> GetProductByIdAsync(int id);
     
     //IReadOnlyList is a list that cannot be modified,
@@ -16,4 +15,5 @@ public interface IProductRepository
     Task<IReadOnlyList<ProductBrand>> GetProductBrandsAsync();
     
     Task<IReadOnlyList<ProductType>> GetProductTypesAsync();
+    
 }
