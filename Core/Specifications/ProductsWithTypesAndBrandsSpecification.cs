@@ -22,4 +22,5 @@ public class ProductsWithTypesAndBrandsSpecification : BaseSpecification<Product
         AddInclude(x => x.ProductType);
         AddInclude(x => x.ProductBrand);
     }
+    
 }

@@ -9,4 +9,5 @@ public interface ISpecification<T>
     
     //This is the criteria that we will use to include things in our entities (Like include clause)
     List<Expression<Func<T, object>>> Includes { get; }
+    
 }
