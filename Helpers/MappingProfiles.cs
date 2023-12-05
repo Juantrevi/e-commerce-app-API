@@ -4,7 +4,8 @@ using e_commerce_app.Dtos;
 
 namespace e_commerce_app.Helpers;
 
-//Profile, is an AutoMapper class that we can use to configure our mappings
+//Profile
+//Is an AutoMapper class that we can use to configure our mappings
 public class MappingProfiles : Profile
 {
     //Constructor
@@ -13,7 +14,6 @@ public class MappingProfiles : Profile
         //As long as the property names match, AutoMapper will map them automatically
         //Add it to the program.cs as a service.
         //We need to tell AutoMapper how to map the ProductType and ProductBrand
-        
         CreateMap<Product, ProductToReturnDto>()
             .ForMember(d => d.ProductBrand, o => o.MapFrom(s => s.ProductBrand.Name))
             .ForMember(d => d.ProductType, o => o.MapFrom(s => s.ProductType.Name));
