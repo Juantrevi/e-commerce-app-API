@@ -41,14 +41,12 @@ public class BuggyController : BaseApiController
     [HttpGet("badrequest")]
     public ActionResult GetBadRequest()
     {
-        
         return BadRequest();
     }
     
     [HttpGet("badrequest/{id}")]
-    public ActionResult GetNotFoundRequest(int id)
+    public ActionResult GetBadRequest401(int id)
     {
-        
         return Ok();
     }
 }
