@@ -35,6 +35,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+//This method is used to serve static files
+app.UseStaticFiles();
 
 app.UseAuthorization();
 
