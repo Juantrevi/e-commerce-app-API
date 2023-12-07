@@ -1,6 +1,7 @@
 //Creates an instance of the web application using the default settings and runs it.
 
 using Core.Interfaces;
+using e_commerce_app.Middleware;
 using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,6 +30,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 //Middleware to redirect users to ErrorController when an error occurs
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
 if (app.Environment.IsDevelopment())
