@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace e_commerce_app.Controllers;
 
 [Route("errors/{code}")]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class ErrorController : BaseApiController
 {
     public IActionResult Error(int code)
