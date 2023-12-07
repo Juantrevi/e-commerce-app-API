@@ -53,13 +53,18 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
-if (app.Environment.IsDevelopment())
-{
-    //Swagger is a tool that can help you generate documentation for your API.
-    //https://localhost:5001/swagger
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+
+/*
+ *  Swagger
+    is a tool that can help you generate documentation for your API.
+ *  https://localhost:5001/swagger
+    Make it available for production and development environments
+ */
+app.UseSwagger();
+app.UseSwaggerUI();
+//}
 //This method is used to serve static files
 app.UseStaticFiles();
 
