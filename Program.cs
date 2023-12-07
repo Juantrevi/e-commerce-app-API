@@ -1,8 +1,10 @@
 //Creates an instance of the web application using the default settings and runs it.
 
 using Core.Interfaces;
+using e_commerce_app.Errors;
 using e_commerce_app.Middleware;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,24 @@ builder.Services.AddSwaggerGen();
 //This is how we add a generic repository to the container
 builder.Services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//ApiValidationErrorResponse is a class that will be returned to the client when there is a validation error
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.InvalidModelStateResponseFactory = actionContext =>
+    {
+        var errors = actionContext.ModelState
+            .Where(e => e.Value.Errors.Count > 0)
+            .SelectMany(x => x.Value.Errors)
+            .Select(x => x.ErrorMessage).ToArray();
+
+        var errorResponse = new ApiValidationErrorResponse
+        {
+            Errors = errors
+        };
+
+        return new BadRequestObjectResult(errorResponse);
+    };
+});
 
 //AddScoped:
 //A new instance is created for each request, only for the duration of that request
