@@ -1,50 +1,14 @@
 //Creates an instance of the web application using the default settings and runs it.
 
-using Core.Interfaces;
-using e_commerce_app.Errors;
+using e_commerce_app.Extensions;
 using e_commerce_app.Middleware;
 using Infrastructure.Data;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//Adding a connection string to the database (SQLite)
-builder.Services.AddDbContext<StoreContext>(opt 
-    => opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-// Add services to the container
-// Add any additional services to the container here like the following:
-// builder.Services.AddSingleton<IExampleService, ExampleService>();
 builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-//This is how we add a generic repository to the container
-builder.Services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-//ApiValidationErrorResponse is a class that will be returned to the client when there is a validation error
-builder.Services.Configure<ApiBehaviorOptions>(options =>
-{
-    options.InvalidModelStateResponseFactory = actionContext =>
-    {
-        var errors = actionContext.ModelState
-            .Where(e => e.Value.Errors.Count > 0)
-            .SelectMany(x => x.Value.Errors)
-            .Select(x => x.ErrorMessage).ToArray();
-
-        var errorResponse = new ApiValidationErrorResponse
-        {
-            Errors = errors
-        };
-
-        return new BadRequestObjectResult(errorResponse);
-    };
-});
-
-//AddScoped:
-//A new instance is created for each request, only for the duration of that request
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddApplicationServices(builder.Configuration);
 
 var app = builder.Build();
 
