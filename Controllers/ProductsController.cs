@@ -3,6 +3,7 @@ using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
 using e_commerce_app.Dtos;
+using e_commerce_app.Errors;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -59,12 +60,21 @@ public class ProductsController : BaseApiController
     
     
     [HttpGet("{id}")]
-    public async Task<ProductToReturnDto> GetProduct(int id)
+    //Swagger documentation
+    //We are telling swagger that the response type is 200 or 404
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
     {
         //We call the constructor with params, and create a new instance
         var spec = new ProductsWithTypesAndBrandsSpecification(id);
         
         var product = await _productsRepo.GetEntityWithSpec(spec);
+
+        if (product == null)
+        {
+            return NotFound(new ApiResponse(404));
+        }
         
         return _mapper.Map<Product, ProductToReturnDto>(product);
         
