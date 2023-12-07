@@ -28,6 +28,9 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+//Middleware to redirect users to ErrorController when an error occurs
+app.UseStatusCodePagesWithReExecute("/errors/{0}");
+
 if (app.Environment.IsDevelopment())
 {
     //Swagger is a tool that can help you generate documentation for your API.
