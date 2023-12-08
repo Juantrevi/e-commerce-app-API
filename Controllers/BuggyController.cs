@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace e_commerce_app.Controllers;
 
-//Uses
-//To set up some errors to see how our error handling works
+/*
+ *Uses (Testing purposes):
+ * To set up some errors to see how our error handling works
+*/
 public class BuggyController : BaseApiController
 {
     private readonly StoreContext _context;
