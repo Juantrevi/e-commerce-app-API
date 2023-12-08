@@ -17,9 +17,6 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
-//if (app.Environment.IsDevelopment())
-//{
-
 /*
  *  Swagger
     is a tool that can help you generate documentation for your API.
@@ -28,7 +25,7 @@ app.UseStatusCodePagesWithReExecute("/errors/{0}");
  */
 app.UseSwagger();
 app.UseSwaggerUI();
-//}
+
 //This method is used to serve static files
 app.UseStaticFiles();
 
@@ -36,10 +33,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//This method is used to create a scope for the application
-//This scope is used to create a new instance of the database
-//This instance is used to create the database if it doesn't exist
-//This instance is used to migrate the database if there are any pending migrations
+/* Method()
+ *This method is used to create a scope for the application
+This scope is used to create a new instance of the database
+This instance is used to create the database if it doesn't exist
+This instance is used to migrate the database if there are any pending migrations 
+ */
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var context = services.GetRequiredService<StoreContext>();
