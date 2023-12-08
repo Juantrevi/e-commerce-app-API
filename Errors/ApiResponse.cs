@@ -25,8 +25,12 @@ public class ApiResponse
     
     private string GetDefaultMessageForStatusCode(int statusCode)
     {
-        //This switch statement will return a message depending on the status code
-        //that we pass in
+        
+    /*
+    Switch statement
+    will return a message depending on the status code
+    that we pass in
+    */
         return statusCode switch
         {
             400 => "A bad request, you have made",
