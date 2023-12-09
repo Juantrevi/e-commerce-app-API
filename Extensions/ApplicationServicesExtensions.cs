@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace e_commerce_app.Extensions;
 
-/**
+/*
  * Class ApplicationServicesExtensions
  * This class is used to extend the IServiceCollection interface,
  * this way we can clean up the code in the Program.cs file
@@ -17,31 +17,42 @@ public static class ApplicationServicesExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
     {
-        //Adding a connection string to the database (SQLite)
-        services.AddDbContext<StoreContext>(opt 
-            => opt.UseSqlite(config.GetConnectionString("DefaultConnection")));
+    /*
+    Connection to DB
+    Adding a connection string to the database (SQLite) 
+    */
+    services.AddDbContext<StoreContext>(opt 
+        => opt.UseSqlite(config.GetConnectionString("DefaultConnection")));
+    
+    /*
+    Add services to the container
+    Add any additional services to the container here like the following:
+    builder.Services.AddSingleton<IExampleService, ExampleService>();
+    */
+    services.AddEndpointsApiExplorer();
+    services.AddSwaggerGen();
 
-        // Add services to the container
-        // Add any additional services to the container here like the following:
-        // builder.Services.AddSingleton<IExampleService, ExampleService>();
-
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
-
-        //This is how we add a generic repository to the container
-        services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
-        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-        //ApiValidationErrorResponse is a class that will be returned to the client when there is a validation error
-        services.Configure<ApiBehaviorOptions>(options =>
-        {
+    
+    /*
+     Adding a generic repository to the container 
+    */
+    services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+    services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+    
+    /*
+     ApiValidationErrorResponse
+     is a class that will be returned to the client when there is a validation error
+    */
+    services.Configure<ApiBehaviorOptions>(options =>
+        { 
             options.InvalidModelStateResponseFactory = actionContext =>
-            {
-                var errors = actionContext.ModelState
-                    .Where(e => e.Value.Errors.Count > 0)
-                    .SelectMany(x => x.Value.Errors)
-                    .Select(x => x.ErrorMessage).ToArray();
+                {
+                    var errors = actionContext.ModelState
+                        .Where(e => e.Value.Errors.Count > 0)
+                        .SelectMany(x => x.Value.Errors)
+                        .Select(x => x.ErrorMessage).ToArray();
 
-                var errorResponse = new ApiValidationErrorResponse
+                    var errorResponse = new ApiValidationErrorResponse
                 {
                     Errors = errors
                 };
@@ -50,11 +61,12 @@ public static class ApplicationServicesExtensions
             };
         });
 
-        //AddScoped:
-        //A new instance is created for each request, only for the duration of that request
-        services.AddScoped<IProductRepository, ProductRepository>();
-
-        
-        return services;
+    /*
+    AddScoped()
+      A new instance is created for each request, only for the duration of that request 
+    */
+    services.AddScoped<IProductRepository, ProductRepository>();
+    
+    return services;
     }
 }
