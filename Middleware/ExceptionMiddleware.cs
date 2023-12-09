@@ -28,16 +28,22 @@ public class ExceptionMiddleware
         {
             //Log the exception (Console)
             _logger.LogError(ex, ex.Message);
-            //Write the exception to the response and send it to the client
-            //All are sent as JSON
+            
+            /*
+            We need to write our own response
+            Write the exception to the response and send it to the client
+            All are sent as JSON
+            */
             context.Response.ContentType = "application/json";
             //Set the status code to 500
             context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
 
-            //Write our own response
-            //If we are in development, we will return the exception message and stack trace
-            //If we are in production, we will return a generic message
-            //Using ternary operator
+            /*
+            Write our own response
+              If we are in development, we will return the exception message and stack trace
+              If we are in production, we will return a generic message
+              Using ternary operator
+            */
             var response = _env.IsDevelopment()
                 ? new ApiException((int) HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace.ToString())
                 //If we are not in development, we will return a generic message
