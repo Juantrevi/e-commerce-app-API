@@ -14,27 +14,32 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         _context = context;
     }
     
-    
     public async Task<T> GetByIdAsync(int id)
     {
-        //With the .Set<T>() 
-        //method we can access the entities of type T
+        /*
+        .Set<T>()
+        method we can access the entities of type T 
+        */
         return await _context.Set<T>().FindAsync(id);
     }
 
     public async Task<IReadOnlyList<T>> ListAllAsync()
     {
-        //With the .Set<T>() 
-        // method we can access the entities of type T
-        //But we need the .include() method to include related entities
-        //But here we can't use it, because we don't know the type of T
-        //that's why we need to use IQueryable<T> as specification class
-        //which will return the type of T
+        /*
+        With the .Set<T>()
+        method we can access the entities of type T
+        But we need the .include() method to include related entities
+        But here we can't use it, because we don't know the type of T
+        that's why we need to use IQueryable<T> as specification class
+        which will return the type of T 
+        */
         return await _context.Set<T>().ToListAsync();
     }
 
-    //Implementation
-    //of the specification methods, using the ApplySpecification method
+    /*
+    Implementation 
+    of the specification methods, using the ApplySpecification method
+    */
     public async Task<T> GetEntityWithSpec(ISpecification<T> spec)
     {
         return await ApplySpecification(spec).FirstOrDefaultAsync();

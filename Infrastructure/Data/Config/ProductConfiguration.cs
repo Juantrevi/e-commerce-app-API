@@ -3,10 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Data.Config;
-
-//This class is used to configure our entities
-//different than the default configuration on 
-//how Entity Framework Core will create our Migrations
+/*
+This class is used to configure our entities
+different than the default configuration on 
+how Entity Framework Core will create our Migrations
+*/
 public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
     //This method is used to configure our entities
