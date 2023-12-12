@@ -8,6 +8,19 @@ namespace Core.Specifications;
 */
 public class ProductsWithTypesAndBrandsSpecification : BaseSpecification<Product>
 {
+    
+    /*
+Using constructor WITH NO PARAMS
+with no parameters from BaseSpecification
+*/
+    public ProductsWithTypesAndBrandsSpecification(string sort)
+    {
+        AddInclude(x => x.ProductType);
+        AddInclude(x => x.ProductBrand);
+        AddOrderBy(x => x.Name);
+    }
+    
+    
     /*
     Using constructor WITH PARAMS
     with parameters from BaseSpecification using criteria
@@ -18,14 +31,6 @@ public class ProductsWithTypesAndBrandsSpecification : BaseSpecification<Product
         AddInclude(x => x.ProductBrand);
     }
 
-    /*
-    Using constructor WITH NO PARAMS
-    with no parameters from BaseSpecification 
-    */
-    public ProductsWithTypesAndBrandsSpecification()
-    {
-        AddInclude(x => x.ProductType);
-        AddInclude(x => x.ProductBrand);
-    }
+
     
 }
