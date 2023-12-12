@@ -21,6 +21,16 @@ public class SpecificationEvaluator<TEntity> where TEntity : BaseEntity
             query = query.Where(spec.Criteria); // example: p => p.ProductTypeId == id
         }
         
+        if (spec.OrderBy != null)
+        {
+            query = query.OrderBy(spec.OrderBy); 
+        }
+        
+        if (spec.OrderByDescending != null)
+        {
+            query = query.OrderByDescending(spec.OrderByDescending); 
+        }
+        
         /*
         Aggregate
         We are combining all out includes into one query

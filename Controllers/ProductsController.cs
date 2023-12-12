@@ -48,9 +48,9 @@ public class ProductsController : BaseApiController
         // and this will consume a lot of memory, so we need to use async code to handle this.
         //Aso creating the Task, what we are saying is "Go get me some data" and when you are done
         //Task goes away and deals with that, in the meantime, that thread can go and handle other requests
-    public async Task<ActionResult<List<ProductToReturnDto>>> GetProducts()
+    public async Task<ActionResult<List<ProductToReturnDto>>> GetProducts(string sort)
     { 
-        var spec = new ProductsWithTypesAndBrandsSpecification();
+        var spec = new ProductsWithTypesAndBrandsSpecification(sort);
         
         //This method is from our GenericRepository, and takes a specification
         var products = await _productsRepo.ListAsync(spec);

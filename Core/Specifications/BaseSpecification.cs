@@ -17,11 +17,29 @@ public class BaseSpecification<T> : ISpecification<T>
     public Expression<Func<T, bool>> Criteria { get; }
     
     public List<Expression<Func<T, object>>> Includes { get; } = new List<Expression<Func<T, object>>>();
+
+    public Expression<Func<T, object>> OrderBy { get; private set; }
+    
+    public Expression<Func<T, object>> OrderByDescending { get; private set; }
     
     //This method is used to add an include to our Includes list
     protected void AddInclude(Expression<Func<T, object>> includeExpression)
     {
         Includes.Add(includeExpression);
     }
+    
+    //method to order by
+    protected void AddOrderBy(Expression<Func<T, object>> orderByExpression)
+    {
+        OrderBy = orderByExpression;
+    }
+    
+    //method to order by descending
+    protected void AddOrderByDescending(Expression<Func<T, object>> orderByDescExpression)
+    {
+        OrderByDescending = orderByDescExpression;
+    }
+    
+
     
 }

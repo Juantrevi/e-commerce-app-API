@@ -45,6 +45,7 @@ public class ProductRepository : IProductRepository
     
     public async Task<IReadOnlyList<Product>> GetProductsAsync()
     {
+        
         //include()
         //This method is used to include related entities in the query results.
         return await _context.Products
