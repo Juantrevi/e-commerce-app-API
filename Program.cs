@@ -31,6 +31,9 @@ app.UseStaticFiles();
 
 app.UseAuthorization();
 
+//Allow CORS
+app.UseCors("CorsPolicy");
+
 app.MapControllers();
 
 /* Method()
