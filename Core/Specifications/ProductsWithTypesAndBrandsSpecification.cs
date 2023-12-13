@@ -13,7 +13,16 @@ public class ProductsWithTypesAndBrandsSpecification : BaseSpecification<Product
 Using constructor WITH NO PARAMS
 with no parameters from BaseSpecification
 */
-    public ProductsWithTypesAndBrandsSpecification(string sort)
+    /*
+     NO LONGER NO PARAMS
+        Now we have params from the query string, we use it to 
+        filter the products, and we pass it to the base constructor
+     */
+    public ProductsWithTypesAndBrandsSpecification(string sort, int? brandId, int? typeId) 
+        : base(x => 
+            (!brandId.HasValue || x.ProductBrandId == brandId)
+            && 
+            (!typeId.HasValue || x.ProductTypeId == typeId))
     {
         AddInclude(x => x.ProductType);
         AddInclude(x => x.ProductBrand);
