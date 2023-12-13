@@ -50,6 +50,11 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
         return await ApplySpecification(spec).ToListAsync();
     }
     
+    public async Task<int> CountAsync(ISpecification<T> spec)
+    {
+        return await ApplySpecification(spec).CountAsync();
+    }
+
     //This method allows to apply specification to the query
     private IQueryable<T> ApplySpecification(ISpecification<T> spec)
     {

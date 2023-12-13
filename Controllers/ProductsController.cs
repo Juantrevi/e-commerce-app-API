@@ -4,6 +4,7 @@ using Core.Interfaces;
 using Core.Specifications;
 using e_commerce_app.Dtos;
 using e_commerce_app.Errors;
+using e_commerce_app.Helpers;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -48,14 +49,20 @@ public class ProductsController : BaseApiController
         // and this will consume a lot of memory, so we need to use async code to handle this.
         //Aso creating the Task, what we are saying is "Go get me some data" and when you are done
         //Task goes away and deals with that, in the meantime, that thread can go and handle other requests
-    public async Task<ActionResult<List<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams productParams)
+    public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams productParams)
     { 
         var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
         
-        //This method is from our GenericRepository, and takes a specification
+        var countSpec = new ProductWithFiltersForCountSpecification(productParams);
+        
+        var totalItems = await _productsRepo.CountAsync(countSpec);
+        
         var products = await _productsRepo.ListAsync(spec);
         
-        return Ok(_mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products));
+        var data = _mapper
+            .Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
+        
+        return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex, productParams.PageSize, totalItems, data));
     }
     
     
