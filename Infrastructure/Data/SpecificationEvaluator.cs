@@ -16,6 +16,12 @@ public class SpecificationEvaluator<TEntity> where TEntity : BaseEntity
     {
         var query = inputQuery;
         
+        /*
+         ORDER
+         Is important, if we are filtering our results, we dont
+         want to page our results before knowing which ones we are returning.
+         So the paging is the last thing we do, after filtering and sorting
+         */
         if (spec.Criteria != null)
         {
             query = query.Where(spec.Criteria); // example: p => p.ProductTypeId == id
@@ -29,6 +35,11 @@ public class SpecificationEvaluator<TEntity> where TEntity : BaseEntity
         if (spec.OrderByDescending != null)
         {
             query = query.OrderByDescending(spec.OrderByDescending); 
+        }
+        
+        if (spec.IsPagingEnabled)
+        {
+            query = query.Skip(spec.Skip).Take(spec.Take);
         }
         
         /*

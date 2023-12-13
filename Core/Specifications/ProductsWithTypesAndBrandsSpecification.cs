@@ -18,23 +18,24 @@ with no parameters from BaseSpecification
         Now we have params from the query string, we use it to 
         filter the products, and we pass it to the base constructor
      */
-    public ProductsWithTypesAndBrandsSpecification(string sort, int? brandId, int? typeId) 
+    public ProductsWithTypesAndBrandsSpecification(ProductSpecParams productParams) 
         : base(x => 
-            (!brandId.HasValue || x.ProductBrandId == brandId)
+            (!productParams.BrandId.HasValue || x.ProductBrandId == productParams.BrandId)
             && 
-            (!typeId.HasValue || x.ProductTypeId == typeId))
+            (!productParams.TypeId.HasValue || x.ProductTypeId == productParams.TypeId))
     {
         AddInclude(x => x.ProductType);
         AddInclude(x => x.ProductBrand);
         AddOrderBy(x => x.Name);
+        ApplyPaging(productParams.PageSize * (productParams.PageIndex - 1), productParams.PageSize);
         
         /*
          Sorting
          Sorting is done by the query string
          */
-        if (!string.IsNullOrEmpty(sort))
+        if (!string.IsNullOrEmpty(productParams.Sort))
         {
-            switch (sort)
+            switch (productParams.Sort)
             {
                 case "priceAsc":
                     AddOrderBy(p => p.Price);

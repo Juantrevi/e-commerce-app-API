@@ -15,4 +15,11 @@ public interface ISpecification<T>
     
     Expression<Func<T, object>> OrderByDescending { get; }
     
+    //Pagination
+    int Take { get; }
+    
+    int Skip { get; }
+    
+    bool IsPagingEnabled { get; }
+    
 }
