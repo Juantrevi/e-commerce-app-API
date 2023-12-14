@@ -11,6 +11,7 @@ public class MappingProfiles : Profile
     //Constructor
     public MappingProfiles()
     {
+        
         /*
         CreateMap()
           As long as the property names match, AutoMapper will map them automatically
