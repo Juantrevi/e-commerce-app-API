@@ -51,6 +51,7 @@ public class ProductsController : BaseApiController
         //Task goes away and deals with that, in the meantime, that thread can go and handle other requests
     public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams productParams)
     { 
+        
         var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
         
         var countSpec = new ProductWithFiltersForCountSpecification(productParams);
@@ -63,6 +64,7 @@ public class ProductsController : BaseApiController
             .Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
         
         return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex, productParams.PageSize, totalItems, data));
+        
     }
     
     
@@ -91,9 +93,11 @@ public class ProductsController : BaseApiController
     [HttpGet("brands")]
     public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
     {
+        
         var productBrands = await _productBrandsRepo.ListAllAsync();
         
         return Ok(productBrands);
+        
     }
     
     
