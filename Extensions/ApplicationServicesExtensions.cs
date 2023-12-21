@@ -74,8 +74,10 @@ public static class ApplicationServicesExtensions
     {
         opt.AddPolicy("CorsPolicy", policy =>
         {
+            //No https, no certificate. This is for development purposes only
             policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200");
         });
+        
     });
     
     
